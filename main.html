@@ -414,3 +414,35 @@
           orderTokenIn.value = '';
           orderTokenOut.value = '';
           orderAmountIn.value = '';
+          orderAmountOutMin.value = '';
+          loadInfo();
+          loadOrders();
+        } catch (e) {
+          setStatus(e.message || 'Place order failed', 'error');
+        }
+      });
+
+      executeOrderBtn.addEventListener('click', async function () {
+        if (!contract || !signer) return;
+        const id = parseInt(executeOrderId.value, 10);
+        if (!id || id < 1) {
+          setStatus('Enter a valid order ID.', 'error');
+          return;
+        }
+        setStatus('Confirm in wallet…');
+        try {
+          const tx = await contract.executeOrder(id);
+          await tx.wait();
+          setStatus('Order #' + id + ' executed. Tx: ' + tx.hash.slice(0, 10) + '…', 'success');
+          loadInfo();
+          loadOrders();
+        } catch (e) {
+          setStatus(e.message || 'Execute failed', 'error');
+        }
+      });
+
+      connectBtn.addEventListener('click', connect);
+    })();
+  </script>
+</body>
+</html>
