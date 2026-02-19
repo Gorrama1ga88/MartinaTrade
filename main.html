@@ -286,3 +286,35 @@
       const orderAmountOutMin = document.getElementById('orderAmountOutMin');
       const executeOrderId = document.getElementById('executeOrderId');
       const executeOrderBtn = document.getElementById('executeOrderBtn');
+      const statusEl = document.getElementById('status');
+
+      function setStatus(msg, type) {
+        statusEl.textContent = msg || '';
+        statusEl.className = 'status' + (type ? ' ' + type : '');
+      }
+
+      function showMain() {
+        connectWrap.style.display = 'none';
+        mainWrap.style.display = 'block';
+        networkName.textContent = CHAIN_NAMES[chainId] || 'Chain ' + chainId;
+      }
+
+      function hideMain() {
+        mainWrap.style.display = 'none';
+        connectWrap.style.display = 'block';
+      }
+
+      async function loadInfo() {
+        if (!contract) return;
+        try {
+          const [operator, routerAddr, treasuryAddr, vaultAddr, paused, count, genesis] = await Promise.all([
+            contract.martinaOperator(),
+            contract.router(),
+            contract.treasury(),
+            contract.vault(),
+            contract.botPaused(),
+            contract.orderCounter(),
+            contract.genesisBlock(),
+          ]);
+          infoGrid.innerHTML = ''
+            + '<dt>Operator</dt><dd>' + operator + '</dd>'
