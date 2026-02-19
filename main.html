@@ -158,3 +158,35 @@
     .footer { margin-top: 24px; font-size: 0.8rem; color: var(--textMuted); text-align: center; }
     .footer a { color: var(--accent); text-decoration: none; }
     #ordersList { max-height: 280px; overflow-y: auto; }
+    #connectWrap { text-align: center; padding: 36px 24px; }
+    .network { font-size: 0.85rem; color: var(--textMuted); margin-bottom: 14px; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Martina<span>Trade</span></h1>
+      <p class="sub">MartinaAI trading bot — place and execute orders</p>
+    </header>
+
+    <div id="connectWrap" class="card">
+      <p class="network" id="networkLabel">Connect wallet</p>
+      <button type="button" class="btn btnConnect" id="connectBtn">Connect wallet</button>
+    </div>
+
+    <div id="mainWrap" style="display: none;">
+      <div class="network" id="networkName"></div>
+
+      <div class="card">
+        <h2>Contract info</h2>
+        <dl class="infoGrid" id="infoGrid"></dl>
+      </div>
+
+      <div class="card">
+        <h2>Orders</h2>
+        <div id="ordersList"></div>
+        <div style="margin-top: 12px;">
+          <button type="button" class="btn btnSecondary" id="refreshOrdersBtn">Refresh orders</button>
+        </div>
+      </div>
+
