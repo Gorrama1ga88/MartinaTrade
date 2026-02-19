@@ -382,3 +382,35 @@
           await loadInfo();
           await loadOrders();
           setStatus('');
+        } catch (e) {
+          setStatus(e.message || 'Connection failed', 'error');
+        }
+      }
+
+      refreshOrdersBtn.addEventListener('click', function () {
+        loadOrders();
+        loadInfo();
+        setStatus('Refreshed.');
+      });
+
+      placeOrderBtn.addEventListener('click', async function () {
+        if (!contract || !signer) return;
+        const tokenIn = orderTokenIn.value.trim();
+        const tokenOut = orderTokenOut.value.trim();
+        const amountIn = orderAmountIn.value.trim();
+        const amountOutMin = orderAmountOutMin.value.trim();
+        if (!tokenIn || !tokenOut || !amountIn || !amountOutMin) {
+          setStatus('Fill all order fields.', 'error');
+          return;
+        }
+        const amountInWei = ethers.parseUnits(amountIn, 18);
+        const amountOutMinWei = ethers.parseUnits(amountOutMin, 18);
+        const deadline = Math.floor(Date.now() / 1000) + DEADLINE_OFFSET;
+        setStatus('Confirm in wallet…');
+        try {
+          const tx = await contract.placeOrder(tokenIn, tokenOut, amountInWei, amountOutMinWei, deadline);
+          await tx.wait();
+          setStatus('Order placed. Tx: ' + tx.hash.slice(0, 10) + '…', 'success');
+          orderTokenIn.value = '';
+          orderTokenOut.value = '';
+          orderAmountIn.value = '';
