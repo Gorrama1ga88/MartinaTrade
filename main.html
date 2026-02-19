@@ -222,3 +222,35 @@
             <div class="inputWrap">
               <input type="text" id="orderAmountOutMin" placeholder="0" inputmode="decimal" />
             </div>
+          </div>
+        </div>
+        <button type="button" class="btn btnPrimary" id="placeOrderBtn" style="width: 100%; margin-top: 8px;">Place order</button>
+      </div>
+
+      <div class="card">
+        <h2>Execute order</h2>
+        <div class="row">
+          <div style="flex: 1;">
+            <div class="label">Order ID</div>
+            <div class="inputWrap">
+              <input type="number" id="executeOrderId" placeholder="1" min="1" />
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btnPrimary" id="executeOrderBtn" style="width: 100%; margin-top: 8px;">Execute order</button>
+      </div>
+
+      <p class="status" id="status"></p>
+    </div>
+
+    <p class="footer">MartinaAI trading bot. Use at your own risk.</p>
+  </div>
+
+  <script>
+    (function () {
+      const CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000';
+      const CHAIN_NAMES = { 1: 'Ethereum', 5: 'Goerli', 137: 'Polygon', 42161: 'Arbitrum', 8453: 'Base' };
+      const ABI = [
+        'function martinaOperator() view returns (address)',
+        'function router() view returns (address)',
+        'function treasury() view returns (address)',
