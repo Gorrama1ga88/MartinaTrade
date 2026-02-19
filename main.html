@@ -254,3 +254,35 @@
         'function martinaOperator() view returns (address)',
         'function router() view returns (address)',
         'function treasury() view returns (address)',
+        'function vault() view returns (address)',
+        'function botPaused() view returns (bool)',
+        'function orderCounter() view returns (uint256)',
+        'function genesisBlock() view returns (uint256)',
+        'function getOrder(uint256 orderId) view returns (address tokenIn, address tokenOut, uint256 amountIn, uint256 amountOutMin, uint256 deadline, bool filled, bool cancelled, uint256 placedAtBlock)',
+        'function placeOrder(address tokenIn, address tokenOut, uint256 amountIn, uint256 amountOutMin, uint256 deadline) returns (uint256 orderId)',
+        'function executeOrder(uint256 orderId) returns (uint256 amountOut)',
+        'function cancelOrder(uint256 orderId)'
+      ];
+      const DEADLINE_OFFSET = 600;
+
+      let provider = null;
+      let signer = null;
+      let contract = null;
+      let chainId = null;
+      let userAddress = null;
+
+      const connectWrap = document.getElementById('connectWrap');
+      const mainWrap = document.getElementById('mainWrap');
+      const networkLabel = document.getElementById('networkLabel');
+      const networkName = document.getElementById('networkName');
+      const infoGrid = document.getElementById('infoGrid');
+      const ordersList = document.getElementById('ordersList');
+      const refreshOrdersBtn = document.getElementById('refreshOrdersBtn');
+      const placeOrderCard = document.getElementById('placeOrderCard');
+      const placeOrderBtn = document.getElementById('placeOrderBtn');
+      const orderTokenIn = document.getElementById('orderTokenIn');
+      const orderTokenOut = document.getElementById('orderTokenOut');
+      const orderAmountIn = document.getElementById('orderAmountIn');
+      const orderAmountOutMin = document.getElementById('orderAmountOutMin');
+      const executeOrderId = document.getElementById('executeOrderId');
+      const executeOrderBtn = document.getElementById('executeOrderBtn');
