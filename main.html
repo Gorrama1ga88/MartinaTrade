@@ -318,3 +318,35 @@
           ]);
           infoGrid.innerHTML = ''
             + '<dt>Operator</dt><dd>' + operator + '</dd>'
+            + '<dt>Router</dt><dd>' + routerAddr + '</dd>'
+            + '<dt>Treasury</dt><dd>' + treasuryAddr + '</dd>'
+            + '<dt>Vault</dt><dd>' + vaultAddr + '</dd>'
+            + '<dt>Paused</dt><dd>' + (paused ? 'Yes' : 'No') + '</dd>'
+            + '<dt>Order count</dt><dd>' + count.toString() + '</dd>'
+            + '<dt>Genesis block</dt><dd>' + genesis.toString() + '</dd>';
+          const isOp = userAddress && userAddress.toLowerCase() === operator.toLowerCase();
+          placeOrderCard.style.display = isOp ? 'block' : 'none';
+        } catch (e) {
+          infoGrid.innerHTML = '<dd class="status error">Failed to load: ' + (e.message || 'unknown') + '</dd>';
+        }
+      }
+
+      async function loadOrders() {
+        if (!contract) return;
+        try {
+          const count = Number(await contract.orderCounter());
+          ordersList.innerHTML = '';
+          if (count === 0) {
+            ordersList.innerHTML = '<p class="orderStatus">No orders yet.</p>';
+            return;
+          }
+          for (let i = 1; i <= count; i++) {
+            try {
+              const o = await contract.getOrder(i);
+              const status = o.filled ? 'filled' : (o.cancelled ? 'cancelled' : 'open');
+              const statusClass = o.filled ? 'filled' : (o.cancelled ? 'cancelled' : '');
+              ordersList.innerHTML += '<div class="orderRow">'
+                + '<span class="orderId">#' + i + '</span> '
+                + '<span>' + o.tokenIn.slice(0, 8) + '… → ' + o.tokenOut.slice(0, 8) + '…</span> '
+                + '<span class="orderStatus ' + statusClass + '">' + status + '</span>'
+                + '</div>';
