@@ -62,3 +62,35 @@
     }
     .card h2 {
       font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--textMuted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .row:last-child { margin-bottom: 0; }
+    .label {
+      font-size: 0.75rem;
+      color: var(--textMuted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .inputWrap {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radiusSm);
+      padding: 12px 14px;
+      transition: border-color 0.2s;
+    }
+    .inputWrap:focus-within { border-color: var(--accent); }
+    .inputWrap input {
+      width: 100%;
+      background: none;
